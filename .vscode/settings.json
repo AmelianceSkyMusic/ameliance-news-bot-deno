@@ -1,0 +1,54 @@
+{
+	"editor.formatOnPaste": false,
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "never",
+		"source.fixAll.eslint": "explicit"
+	},
+	"cSpell.language": "uk,en,en-US,lorem",
+	"files.eol": "\n",
+	"runOnSave.commands": [
+		{
+			"match": "\\.(css|s[ac]ss)$",
+			"runIn": "vscode",
+			"commandBeforeSaving": "sort-css-declarations.sort-all"
+		}
+	],
+	"files.exclude": {
+		"**/.git": false,
+		"**/.svn": false,
+		"**/.hg": false,
+		"**/CVS": false,
+		"**/.DS_Store": false,
+		"**/Thumbs.db": false,
+		".eslint": false,
+		".history": false,
+		"._backup": false,
+		".vscode": false,
+		"build": false,
+		"node_modules": false,
+		".editorconfig": false,
+		".env": false,
+		".env.prod": false,
+		".eslintrc.js": false,
+		".gitignore": false,
+		".prettierrc.cjs": false,
+		"package.json": false,
+		"tsconfig.json": false,
+		"vercel.json": false
+	},
+	"explorerExclude.backup": {},
+	"cSpell.words": [
+		"amelianceskymusic",
+		"appsscript",
+		"bimba",
+		"holychords",
+		"supr",
+		"tiktok",
+		"unposted",
+		"Ваван",
+		"Красава"
+	],
+	"markdown.updateLinksOnFileMove.enabled": "prompt"
+}

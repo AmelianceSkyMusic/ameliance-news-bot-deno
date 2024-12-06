@@ -1,0 +1,3 @@
+[submodule "src/submodules/ameliance-telegram-scripts-deno"]
+	path = src/submodules/ameliance-telegram-scripts-deno
+	url = https://github.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno.git

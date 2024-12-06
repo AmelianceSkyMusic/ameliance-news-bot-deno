@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+
+# production
+/build
+/dist
+
+# env files
+.env*
+.env*.*
+
+# vscode settings
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# temp folders / files
+*._backup*
+*._legacy*
+*._temp*
+*._labs*
+
+#history
+.history
+.lh
