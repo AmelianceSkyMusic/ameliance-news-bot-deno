@@ -33,4 +33,5 @@ export {
 	prepareEditMessageText,
 	removeMessageById,
 	sendPromptGemini,
+	runWithRandomInterval,
 } from '~ameliance-telegram-scripts-deno/src/index.ts';

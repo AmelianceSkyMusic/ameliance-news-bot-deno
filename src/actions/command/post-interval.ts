@@ -1,6 +1,11 @@
 import { bot } from '../../bot.ts';
-import { Context, handleAppError, hasAccess, logUserInfo } from '../../deps.deno.ts';
-import { runWithRandomInterval } from '../../submodules/ameliance-telegram-scripts-deno/src/run-with-random-interval.ts';
+import {
+	Context,
+	handleAppError,
+	hasAccess,
+	logUserInfo,
+	runWithRandomInterval,
+} from '../../deps.deno.ts';
 import { sendArticle } from '../helpers/send-article.ts';
 
 export function postInterval() {
