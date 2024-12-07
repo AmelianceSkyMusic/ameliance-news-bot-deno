@@ -20,8 +20,8 @@ export function postInterval() {
 				async () => {
 					await sendArticle(ctx);
 				},
+				1,
 				3,
-				5,
 			);
 		} catch (error) {
 			handleAppError(ctx, error);
