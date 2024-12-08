@@ -2,7 +2,7 @@ import { webhookCallback } from './deps.deno.ts';
 
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
-import { sendArticle } from './actions/helpers/send-article';
+import { sendArticle } from './actions/helpers/send-article.ts';
 
 const handleUpdate = webhookCallback(bot, 'std/http');
 
