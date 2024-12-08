@@ -2,6 +2,7 @@ import { webhookCallback } from './deps.deno.ts';
 
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
+import { sendArticle } from './actions/helpers/send-article';
 
 const handleUpdate = webhookCallback(bot, 'std/http');
 
@@ -14,6 +15,19 @@ Deno.serve(async (req: Request) => {
 				return await handleUpdate(req);
 			} catch (err) {
 				console.error(err);
+			}
+		}
+	}
+
+	if (req.method === 'GET') {
+		const url = new URL(req.url);
+		if (url.pathname == '/send-article') {
+			try {
+				await sendArticle(bot.context);
+				return new Response('OK', { status: 200 });
+			} catch (error) {
+				console.error('Error during ping:', error);
+				return new Response('Error', { status: 500 });
 			}
 		}
 	}
