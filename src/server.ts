@@ -8,9 +8,10 @@ const handleUpdate = webhookCallback(bot, 'std/http');
 
 Deno.serve(async (req: Request) => {
 	await connectToDatabase();
-	if (req.method == 'POST') {
-		const url = new URL(req.url);
-		if (url.pathname.slice(1) == bot.token) {
+	const url = new URL(req.url);
+
+	if (req.method === 'POST') {
+		if (url.pathname.slice(1) === bot.token) {
 			try {
 				return await handleUpdate(req);
 			} catch (err) {
@@ -19,16 +20,14 @@ Deno.serve(async (req: Request) => {
 		}
 	}
 
-	if (req.method === 'GET') {
-		const url = new URL(req.url);
-		if (url.pathname == '/send-article') {
-			try {
-				await sendArticle(bot.context);
-				return new Response('OK', { status: 200 });
-			} catch (error) {
-				console.error('Error during ping:', error);
-				return new Response('Error', { status: 500 });
-			}
+	if (req.method === 'GET' && url.pathname === '/send-article') {
+		try {
+			await sendArticle(bot.context);
+			console.log('Article sent successfully');
+			return new Response('OK', { status: 200 });
+		} catch (error) {
+			console.error('Error during article sending:', error);
+			return new Response('Error', { status: 500 });
 		}
 	}
 
