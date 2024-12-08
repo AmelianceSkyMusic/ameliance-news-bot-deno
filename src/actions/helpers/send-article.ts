@@ -11,6 +11,16 @@ import { onMessagePostMenu } from '../menu/on-message-post-menu.ts';
 import { generateBimbaPostAsHTML } from './generate-bimba-post-as-html.ts';
 import { getArticleToPost } from './get-article-to-post.ts';
 
+async function isImageUrlValid(imageUrl: string): Promise<boolean | undefined> {
+	try {
+		const response = await fetch(imageUrl, { method: 'HEAD' });
+		const contentType = response.headers.get('content-type');
+		return contentType?.startsWith('image/') && !contentType.includes('avif');
+	} catch {
+		return false;
+	}
+}
+
 export async function sendArticle(ctx: Context) {
 	try {
 		const respArticle = await getArticleToPost(ctx);
@@ -28,6 +38,13 @@ export async function sendArticle(ctx: Context) {
 			image,
 			source: { name },
 		} = respArticle;
+
+		if (!(await isImageUrlValid(image))) {
+			handleAppError(ctx, 'Invalid image format, skipping article');
+			await data.article.markAsPosted(respArticle?._id);
+			await sendArticle(ctx);
+			return;
+		}
 
 		ctx.reply(
 			`<b>title:</b> ${title}
