@@ -23,16 +23,13 @@ Deno.serve(async (req: Request) => {
 	}
 
 	if (req.method === 'GET') {
-		console.log('GET url: ', url);
 		if (url.pathname === '/send-article') {
 			console.log('send-article: ', true);
 			try {
-				await sendArticle(bot);
-				const nextInterval = getRandomNumber(1, 5);
-				console.log(`Article sent successfully. Next interval: ${nextInterval} minutes`);
-				return new Response(String(nextInterval), { status: 200 });
+				await sendArticle(bot.ctx);
+				return new Response('OK', { status: 200 });
 			} catch (error) {
-				console.error('Error during article sending:', error);
+				console.error('Error during post sending:', error);
 				return new Response('Error', { status: 500 });
 			}
 		}
