@@ -4,7 +4,7 @@ import { getRandomNumber } from 'npm:ameliance-scripts';
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
 import { sendArticle } from './actions/helpers/send-article.ts';
-import { ENV } from './constants/env';
+import { ENV } from './constants/env.ts';
 
 const handleUpdate = webhookCallback(bot, 'std/http');
 
