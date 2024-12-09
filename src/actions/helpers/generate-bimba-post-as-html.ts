@@ -1,8 +1,8 @@
 import { bot } from '../../bot.ts';
-import { sendPromptGemini } from '../../deps.deno.ts';
+import { sendPromptGemini, Message } from '../../deps.deno.ts';
 import { handleAppError } from './handle-app-error.ts';
-import { Message } from '../../submodules/ameliance-telegram-scripts-deno/deps.deno.ts';
 import { ENV } from '../../constants/env.ts';
+
 const getTitle = (title: string) =>
 	`Як підказку про що саме шукати текст даю тобі заголовок: ${title}`;
 

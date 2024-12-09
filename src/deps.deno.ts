@@ -8,7 +8,7 @@ export {
 	webhookCallback,
 } from 'https://deno.land/x/grammy@v1.32.0/mod.ts';
 
-export type { MessageEntity } from 'https://deno.land/x/grammy_types@v3.16.0/message.ts';
+export type { Message, MessageEntity } from 'https://deno.land/x/grammy_types@v3.16.0/message.ts';
 export type { SessionFlavor } from 'https://deno.land/x/grammy@v1.33.0/convenience/session.ts';
 
 export { Menu } from 'https://deno.land/x/grammy_menu@v1.3.0/menu.ts';
