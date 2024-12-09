@@ -48,7 +48,7 @@ export async function sendArticle(finalMessage?: string) {
 		const respArticle = await getArticleToPost();
 
 		if (!respArticle) {
-			await bot.sendMessage(Number(ENV.LOG_CHAT_ID), 'NO FRESH ARTICLE!😢');
+			await bot.api.sendMessage(Number(ENV.LOG_CHAT_ID), 'NO FRESH ARTICLE!😢');
 			return;
 		}
 		await data.article.incrementAttempts(respArticle?._id);
@@ -99,6 +99,7 @@ export async function sendArticle(finalMessage?: string) {
 		await data.article.markAsPosted(respArticle?._id);
 	} catch (error) {
 		handleAppError(error);
+		await sendArticle();
 	} finally {
 		if (finalMessage) await bot.api.sendMessage(Number(ENV.LOG_CHAT_ID), finalMessage);
 	}
