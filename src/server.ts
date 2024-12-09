@@ -21,6 +21,7 @@ Deno.serve(async (req: Request) => {
 	}
 
 	if (req.method === 'GET' && url.pathname === '/send-article') {
+		console.log('url: ', url);
 		try {
 			await sendArticle(bot.context);
 			const nextInterval = getRandomNumber(1, 5);
