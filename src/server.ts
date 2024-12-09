@@ -42,7 +42,6 @@ Deno.serve(async (req: Request) => {
 					});
 					const nextExecutionMessage = `OK. Next article will be sent at ${nextExecutionTimeIn24Format}`;
 					await sendArticle(nextExecutionMessage);
-					await bot.sendMessage(Number(ENV.LOG_CHAT_ID), nextExecutionMessage);
 
 					return new Response(nextExecutionMessage, { status: 200 });
 				} else {
