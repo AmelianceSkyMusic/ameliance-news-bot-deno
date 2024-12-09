@@ -1,5 +1,4 @@
 import { webhookCallback } from './deps.deno.ts';
-import { getRandomNumber } from 'npm:ameliance-scripts';
 
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
@@ -26,7 +25,7 @@ Deno.serve(async (req: Request) => {
 		if (url.pathname === '/send-article') {
 			console.log('send-article: ', true);
 			try {
-				await sendArticle(bot.ctx);
+				await sendArticle();
 				return new Response('OK', { status: 200 });
 			} catch (error) {
 				console.error('Error during post sending:', error);

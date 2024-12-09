@@ -9,7 +9,7 @@ export function post() {
 			logUserInfo(ctx, { message: 'hears post', accessMessage: hasAccessToRunCommand });
 			if (!hasAccessToRunCommand) return;
 
-			await sendArticle(ctx);
+			await sendArticle();
 		} catch (error) {
 			handleAppError(ctx, error);
 		}

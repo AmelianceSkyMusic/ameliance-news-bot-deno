@@ -5,6 +5,12 @@ export const ENV = {
 		(MODE === 'dev' ? Deno.env.get('DEV__BIMBA_NEWS_ID') : Deno.env.get('BIMBA_NEWS_ID')) ||
 		Deno.env.get('BIMBA_NEWS_ID'),
 
+	BOT_ID: (MODE === 'dev' ? Deno.env.get('DEV__BOT_ID') : Deno.env.get('BOT_ID')) ||
+		Deno.env.get('BOT_ID'),
+
+	LOG_CHAT_ID: (MODE === 'dev' ? Deno.env.get('DEV__LOG_CHAT_ID') : Deno.env.get('LOG_CHAT_ID')) ||
+		Deno.env.get('LOG_CHAT_ID'),
+
 	GOOGLE_DATA_TABLE_ID:
 		(MODE === 'dev'
 			? Deno.env.get('DEV__GOOGLE_DATA_TABLE_ID')

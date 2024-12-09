@@ -15,14 +15,7 @@ export function postInterval() {
 			logUserInfo(ctx, { message: 'hears postInterval', accessMessage: hasAccessToRunCommand });
 			if (!hasAccessToRunCommand) return;
 
-			runWithRandomInterval(
-				ctx,
-				async () => {
-					await sendArticle(ctx);
-				},
-				1,
-				3,
-			);
+			runWithRandomInterval(ctx, async () => await sendArticle(), 1, 3);
 		} catch (error) {
 			handleAppError(ctx, error);
 		}

@@ -1,11 +1,7 @@
+import { bot } from '../../bot.ts';
 import { ENV } from '../../constants/env.ts';
-import {
-	Context,
-	getHTMLData,
-	getTextFromHTML,
-	handleAppError,
-	InputFile,
-} from '../../deps.deno.ts';
+import { getTextFromHTML, InputFile } from '../../deps.deno.ts';
+import { handleAppError } from './handle-app-error.ts';
 import { data } from '../../libs/db/data/index.ts';
 import { onMessagePostMenu } from '../menu/on-message-post-menu.ts';
 import { generateBimbaPostAsHTML } from './generate-bimba-post-as-html.ts';
@@ -21,12 +17,38 @@ async function isImageUrlValid(imageUrl: string): Promise<boolean | undefined> {
 	}
 }
 
-export async function sendArticle(ctx: Context) {
+export async function getHTMLData(url: string) {
 	try {
-		const respArticle = await getArticleToPost(ctx);
+		const data = await fetch(url);
+		if (!data.ok) {
+			handleAppError(`Error fetching data: ${data.status} ${data.statusText}`);
+			return null;
+		}
+		const contentType = data.headers.get('Content-Type');
+		let encoding = 'utf-8';
+
+		if (contentType) {
+			const match = contentType.match(/charset=([^;]+)/);
+			if (match) encoding = match[1];
+		}
+
+		const arrayBuffer = await data.arrayBuffer();
+		const decoder = new TextDecoder(encoding);
+
+		const html = decoder.decode(arrayBuffer);
+
+		return html;
+	} catch (error) {
+		handleAppError(error);
+	}
+}
+
+export async function sendArticle() {
+	try {
+		const respArticle = await getArticleToPost();
 
 		if (!respArticle) {
-			await ctx.reply('NO FRESH ARTICLE!😢');
+			await bot.sendMessage(Number(ENV.LOG_CHAT_ID), 'NO FRESH ARTICLE!😢');
 			return;
 		}
 		await data.article.incrementAttempts(respArticle?._id);
@@ -40,13 +62,14 @@ export async function sendArticle(ctx: Context) {
 		} = respArticle;
 
 		if (!(await isImageUrlValid(image))) {
-			handleAppError(ctx, 'Invalid image format, skipping article');
+			await handleAppError('Invalid image format, skipping article');
 			await data.article.markAsPosted(respArticle?._id);
-			await sendArticle(ctx);
+			await sendArticle();
 			return;
 		}
 
-		ctx.reply(
+		await bot.api.sendMessage(
+			Number(ENV.LOG_CHAT_ID),
 			`<b>title:</b> ${title}
 <b>publishedAt:</b> ${publishedAt}
 <b>url:</b> ${url}
@@ -58,22 +81,23 @@ export async function sendArticle(ctx: Context) {
 			},
 		);
 
-		const htmlData = await getHTMLData(ctx, url);
+		const htmlData = await getHTMLData(url);
+
 		if (!htmlData) return;
 
 		const textContent = getTextFromHTML(htmlData);
 		if (!textContent) return;
 
-		const postAsHTML = await generateBimbaPostAsHTML(ctx, { title, text: textContent });
+		const postAsHTML = await generateBimbaPostAsHTML({ title, text: textContent });
 		if (!postAsHTML) return;
 
-		await ctx.api.sendPhoto(Number(ENV.BIMBA_NEWS_ID), new InputFile(new URL(image)), {
+		await bot.api.sendPhoto(Number(ENV.BIMBA_NEWS_ID), new InputFile(new URL(image)), {
 			caption: postAsHTML,
 			parse_mode: 'HTML',
 		});
 
 		await data.article.markAsPosted(respArticle?._id);
 	} catch (error) {
-		handleAppError(ctx, error);
+		handleAppError(error);
 	}
 }

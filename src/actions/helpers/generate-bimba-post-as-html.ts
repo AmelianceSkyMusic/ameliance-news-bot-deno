@@ -1,9 +1,8 @@
-import {
-	Context,
-	handleAppError,
-	prepareEditMessageText,
-	sendPromptGemini,
-} from '../../deps.deno.ts';
+import { bot } from '../../bot.ts';
+import { sendPromptGemini } from '../../deps.deno.ts';
+import { handleAppError } from './handle-app-error.ts';
+import { Message } from '../../submodules/ameliance-telegram-scripts-deno/deps.deno.ts';
+import { ENV } from '../../constants/env.ts';
 const getTitle = (title: string) =>
 	`Як підказку про що саме шукати текст даю тобі заголовок: ${title}`;
 
@@ -79,14 +78,26 @@ function transformParagraphTags(paragraph: string): string {
 	});
 }
 
-export async function generateBimbaPostAsHTML(
-	ctx: Context,
-	{ text, title = '' }: { text: string; title?: string },
-) {
+export function prepareEditMessageText(message: Message) {
+	const chatId = message.chat.id;
+	const messageId = message.message_id;
+	return async (text: string) => await bot.api.editMessageText(chatId, messageId, text);
+}
+
+export async function generateBimbaPostAsHTML({
+	text,
+	title = '',
+}: {
+	text: string;
+	title?: string;
+}) {
 	try {
 		const prompt = generatePrompt({ title, text });
-		const notificationMsg = await ctx.reply('...sent a Gemini prompt...');
-		const updateMessageText = await prepareEditMessageText(ctx, notificationMsg);
+		const notificationMsg = await bot.api.sendMessage(
+			Number(ENV.LOG_CHAT_ID),
+			'...sent a Gemini prompt...',
+		);
+		const updateMessageText = await prepareEditMessageText(notificationMsg);
 
 		const geminiAnswer = await getGeminiAnswer(prompt, updateMessageText);
 		if (!geminiAnswer) {
@@ -107,6 +118,6 @@ export async function generateBimbaPostAsHTML(
 
 		return `<b>${articleTitle}</b>\n\n${articleText}\n\n<b><a href="https://t.me/bimba_news">БІМБА-НОВИНИ →</a></b>`;
 	} catch (error) {
-		await handleAppError(ctx, error);
+		await handleAppError(error);
 	}
 }
