@@ -33,10 +33,10 @@ Deno.serve(async (req: Request) => {
 				// 		me: await bot.api.getMe(),
 				// 	});
 				// 	const api = new Api(bot.token);
-				// 	await sendArticle(api.);
-				// 	const nextInterval = getRandomNumber(1, 5);
-				// 	console.log(`Article sent successfully. Next interval: ${nextInterval} minutes`);
-				// 	return new Response(String(nextInterval), { status: 200 });
+				// await sendArticle(api.);
+				const nextInterval = getRandomNumber(1, 5);
+				console.log(`Article sent successfully. Next interval: ${nextInterval} minutes`);
+				return new Response(String(nextInterval), { status: 200 });
 			} catch (error) {
 				console.error('Error during article sending:', error);
 				return new Response('Error', { status: 500 });
