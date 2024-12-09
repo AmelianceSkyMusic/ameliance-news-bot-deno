@@ -100,6 +100,6 @@ export async function sendArticle(finalMessage?: string) {
 	} catch (error) {
 		handleAppError(error);
 	} finally {
-		if (finalMessage) await bot.sendMessage(Number(ENV.LOG_CHAT_ID), finalMessage);
+		if (finalMessage) await bot.api.sendMessage(Number(ENV.LOG_CHAT_ID), finalMessage);
 	}
 }
