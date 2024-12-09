@@ -4,6 +4,7 @@ import { getRandomNumber } from 'npm:ameliance-scripts';
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
 import { sendArticle } from './actions/helpers/send-article.ts';
+import { ENV } from './constants/env';
 
 const handleUpdate = webhookCallback(bot, 'std/http');
 
@@ -24,9 +25,8 @@ Deno.serve(async (req: Request) => {
 
 	if (req.method === 'GET') {
 		if (url.pathname === '/send-article') {
-			console.log('send-article: ', true);
 			try {
-				const randomMinutes = getRandomNumber(1, 5);
+				const randomMinutes = getRandomNumber(5, 15);
 				const lastExecution = Number(Deno.env.get('LAST_EXECUTION') || 0);
 				const now = Date.now();
 
@@ -36,22 +36,20 @@ Deno.serve(async (req: Request) => {
 					console.log('Executing sendArticle');
 					await sendArticle();
 					Deno.env.set('LAST_EXECUTION', now.toString());
-					return new Response(
-						`OK. Next article will be sent at ${nextExecutionTime.toLocaleTimeString(
-							'en-US',
-							{
-								hour: '2-digit',
-								minute: '2-digit',
-							},
-						)}`,
-						{ status: 200 },
-					);
+					const nextExecutionTimeIn24Format = nextExecutionTime.toLocaleTimeString('en-US', {
+						hour: '2-digit',
+						minute: '2-digit',
+						hour12: false,
+						timeZone: 'Europe/Kiev',
+					});
+					const nextExecutionMessage = `OK. Next article will be sent at ${nextExecutionTimeIn24Format}`;
+					await bot.sendMessage(Number(ENV.LOG_CHAT_ID), nextExecutionMessage);
+
+					return new Response(nextExecutionMessage, { status: 200 });
 				} else {
 					console.log('Skipping execution');
 					return new Response('Skipped', { status: 200 });
 				}
-				// await sendArticle();
-				// return new Response('OK', { status: 200 });
 			} catch (error) {
 				console.error('Error during post sending:', error);
 				return new Response('Error', { status: 500 });
