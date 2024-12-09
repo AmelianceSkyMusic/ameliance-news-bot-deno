@@ -33,8 +33,6 @@ Deno.serve(async (req: Request) => {
 				const nextExecutionTime = new Date(now + randomMinutes * 60 * 1000);
 
 				if (now - lastExecution >= randomMinutes * 60 * 1000) {
-					console.log('Executing sendArticle');
-					await sendArticle();
 					Deno.env.set('LAST_EXECUTION', now.toString());
 					const nextExecutionTimeIn24Format = nextExecutionTime.toLocaleTimeString('en-US', {
 						hour: '2-digit',
@@ -43,6 +41,7 @@ Deno.serve(async (req: Request) => {
 						timeZone: 'Europe/Kiev',
 					});
 					const nextExecutionMessage = `OK. Next article will be sent at ${nextExecutionTimeIn24Format}`;
+					await sendArticle(nextExecutionMessage);
 					await bot.sendMessage(Number(ENV.LOG_CHAT_ID), nextExecutionMessage);
 
 					return new Response(nextExecutionMessage, { status: 200 });

@@ -43,7 +43,7 @@ export async function getHTMLData(url: string) {
 	}
 }
 
-export async function sendArticle() {
+export async function sendArticle(finalMessage?: string) {
 	try {
 		const respArticle = await getArticleToPost();
 
@@ -99,5 +99,7 @@ export async function sendArticle() {
 		await data.article.markAsPosted(respArticle?._id);
 	} catch (error) {
 		handleAppError(error);
+	} finally {
+		if (finalMessage) await bot.sendMessage(Number(ENV.LOG_CHAT_ID), finalMessage);
 	}
 }
