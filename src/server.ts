@@ -27,13 +27,7 @@ Deno.serve(async (req: Request) => {
 		if (url.pathname === '/send-article') {
 			console.log('send-article: ', true);
 			try {
-				// 	const ctx = await bot.createContext({
-				// 		update: {},
-				// 		api: bot.api,
-				// 		me: await bot.api.getMe(),
-				// 	});
-				// 	const api = new Api(bot.token);
-				// await sendArticle(api.);
+				await sendArticle(bot);
 				const nextInterval = getRandomNumber(1, 5);
 				console.log(`Article sent successfully. Next interval: ${nextInterval} minutes`);
 				return new Response(String(nextInterval), { status: 200 });
