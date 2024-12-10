@@ -26,10 +26,11 @@ Deno.serve(async (req: Request) => {
 	if (req.method === 'GET') {
 		if (url.pathname === '/send-article') {
 			try {
-				const randomMinutes = getRandomNumber(1, 10);
+				const randomMinutes = getRandomNumber(1, 5);
 				const lastExecution = Number(Deno.env.get('LAST_EXECUTION') || 0);
 				const now = Date.now();
 
+				if (now - lastExecution >= 15 * 60 * 1000) {
 				const nextExecutionTime = new Date(now + randomMinutes * 60 * 1000);
 
 				const minutes = nextExecutionTime.getMinutes();
@@ -37,6 +38,7 @@ Deno.serve(async (req: Request) => {
 				nextExecutionTime.setMinutes(minutes + offset);
 
 				if (now - lastExecution >= randomMinutes * 60 * 1000) {
+					const nextExecutionTime = new Date(now + randomMinutes * 60 * 1000);
 					Deno.env.set('LAST_EXECUTION', now.toString());
 
 					const nextExecutionTimeIn24Format = nextExecutionTime.toLocaleTimeString('en-US', {
