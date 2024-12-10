@@ -26,36 +26,22 @@ Deno.serve(async (req: Request) => {
 	if (req.method === 'GET') {
 		if (url.pathname === '/send-article') {
 			try {
-				const randomMinutes = getRandomNumber(1, 5);
-				const lastExecution = Number(Deno.env.get('LAST_EXECUTION') || 0);
+				const fiveMinInMs = 5 * 60 * 1000;
+				const randomDelay = getRandomNumber(0, fiveMinInMs);
 				const now = Date.now();
-
-				if (now - lastExecution >= 15 * 60 * 1000) {
-				const nextExecutionTime = new Date(now + randomMinutes * 60 * 1000);
-
-				const minutes = nextExecutionTime.getMinutes();
-				const offset = getRandomNumber(0, 4);
-				nextExecutionTime.setMinutes(minutes + offset);
-
-				if (now - lastExecution >= randomMinutes * 60 * 1000) {
-					const nextExecutionTime = new Date(now + randomMinutes * 60 * 1000);
-					Deno.env.set('LAST_EXECUTION', now.toString());
-
-					const nextExecutionTimeIn24Format = nextExecutionTime.toLocaleTimeString('en-US', {
-						hour: '2-digit',
-						minute: '2-digit',
-						hour12: false,
-						timeZone: 'Europe/Kiev',
-					});
-					const nextExecutionMessage =
-						`OK. Next article will be sent at ${nextExecutionTimeIn24Format}`;
+				const nextExecutionTime = new Date(now + randomDelay);
+				const nextExecutionTimeIn24Format = nextExecutionTime.toLocaleTimeString('en-US', {
+					hour: '2-digit',
+					minute: '2-digit',
+					hour12: false,
+					timeZone: 'Europe/Kiev',
+				});
+				const nextExecutionMessage =
+					`OK. Next article will be sent at ${nextExecutionTimeIn24Format}`;
+				setTimeout(async () => {
 					await sendArticle(nextExecutionMessage);
-
-					return new Response(nextExecutionMessage, { status: 200 });
-				} else {
-					console.log('Skipping execution');
-					return new Response('Skipped', { status: 200 });
-				}
+				}, randomDelay);
+				return new Response(nextExecutionMessage, { status: 200 });
 			} catch (error) {
 				console.error('Error during post sending:', error);
 				return new Response('Error', { status: 500 });
