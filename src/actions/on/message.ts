@@ -27,7 +27,7 @@ export function message() {
 				parse_mode: 'HTML',
 			});
 		} catch (error) {
-			handleAppError(ctx, error);
+			await handleAppError(ctx, error);
 		}
 	});
 }

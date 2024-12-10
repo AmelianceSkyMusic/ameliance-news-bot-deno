@@ -17,7 +17,7 @@ export function postInterval() {
 
 			runWithRandomInterval(ctx, async () => await sendArticle(), 1, 3);
 		} catch (error) {
-			handleAppError(ctx, error);
+			await handleAppError(ctx, error);
 		}
 	});
 }

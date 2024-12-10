@@ -8,7 +8,7 @@ export function start() {
 
 			await ctx.reply('Ласкаво просимо! Що треба?');
 		} catch (error) {
-			handleAppError(ctx, error);
+			await handleAppError(ctx, error);
 		}
 	});
 }
