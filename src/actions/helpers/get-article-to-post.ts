@@ -2,7 +2,7 @@ import { ENV } from '../../constants/env.ts';
 import { data } from '../../libs/db/data/index.ts';
 
 import type { GNews } from '../../types/g-news.ts';
-import { handleAppError } from './handle-app-error.ts';
+import { handleAppErrorWithNoContext } from './handle-app-error-with-no-context.ts';
 
 export async function getArticleToPost() {
 	try {
@@ -15,7 +15,7 @@ export async function getArticleToPost() {
 		const newsData: GNews = await respNews.json();
 
 		if (newsData && 'errors' in newsData) {
-			await handleAppError(newsData.errors[0]);
+			await handleAppErrorWithNoContext(newsData.errors[0]);
 			return;
 		}
 		const newArticlesCount = await data.article.addNewArticles(newsData.articles);
@@ -24,6 +24,6 @@ export async function getArticleToPost() {
 		let newArticleToPost = await data.article.getUnpostedArticle();
 		if (newArticleToPost) return newArticleToPost;
 	} catch (error) {
-		await handleAppError(error);
+		await handleAppErrorWithNoContext(error);
 	}
 }

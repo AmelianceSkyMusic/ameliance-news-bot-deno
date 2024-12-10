@@ -1,6 +1,6 @@
 import { bot } from '../../bot.ts';
 import { Message, sendPromptGemini } from '../../deps.deno.ts';
-import { handleAppError } from './handle-app-error.ts';
+import { handleAppErrorWithNoContext } from './handle-app-error-with-no-context.ts';
 import { ENV } from '../../constants/env.ts';
 
 const getTitle = (title: string) =>
@@ -118,6 +118,6 @@ export async function generateBimbaPostAsHTML({
 
 		return `<b>${articleTitle}</b>\n\n${articleText}\n\n<b><a href="https://t.me/bimba_news">БІМБА-НОВИНИ →</a></b>`;
 	} catch (error) {
-		await handleAppError(error);
+		await handleAppErrorWithNoContext(error);
 	}
 }
