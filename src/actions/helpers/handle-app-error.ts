@@ -1,10 +1,10 @@
 import { ErrorHandler, errorHandler, ReturnErrorHandler } from 'npm:ameliance-scripts';
 import { bot } from '../../bot.ts';
+import { ENV } from '../../constants/env.ts';
 
 export type HandleAppError = ErrorHandler;
 
 const APP_NAME = Deno.env.get('APP_NAME');
-const LOG_CHAT_ID = Deno.env.get('LOG_CHAT_ID');
 
 export function handleAppErrorHelper(error: unknown, status?: number): ReturnErrorHandler {
 	const returnedError = errorHandler({
@@ -15,9 +15,9 @@ export function handleAppErrorHelper(error: unknown, status?: number): ReturnErr
 		wrapperCount: 1,
 	});
 
-	String(LOG_CHAT_ID)
+	ENV.LOG_CHAT_ID
 		? bot.api.sendMessage(
-			String(LOG_CHAT_ID),
+			ENV.OWNER_ID,
 			`<blockquote><b>❗️ERROR: ${APP_NAME} > ${returnedError.code} | ${returnedError.message}</b></blockquote>\n<code>${
 				new Error().stack
 					?.split('\n')

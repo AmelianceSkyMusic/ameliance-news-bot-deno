@@ -1,5 +1,5 @@
 import { bot } from '../../bot.ts';
-import { sendPromptGemini, Message } from '../../deps.deno.ts';
+import { Message, sendPromptGemini } from '../../deps.deno.ts';
 import { handleAppError } from './handle-app-error.ts';
 import { ENV } from '../../constants/env.ts';
 
@@ -94,7 +94,7 @@ export async function generateBimbaPostAsHTML({
 	try {
 		const prompt = generatePrompt({ title, text });
 		const notificationMsg = await bot.api.sendMessage(
-			Number(ENV.LOG_CHAT_ID),
+			Number(ENV.OWNER_ID),
 			'...sent a Gemini prompt...',
 		);
 		const updateMessageText = await prepareEditMessageText(notificationMsg);

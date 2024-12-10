@@ -11,6 +11,9 @@ export const ENV = {
 	LOG_CHAT_ID: (MODE === 'dev' ? Deno.env.get('DEV__LOG_CHAT_ID') : Deno.env.get('LOG_CHAT_ID')) ||
 		Deno.env.get('LOG_CHAT_ID'),
 
+	OWNER_ID: (MODE === 'dev' ? Deno.env.get('DEV__OWNER_ID') : Deno.env.get('OWNER_ID')) ||
+		Deno.env.get('OWNER_ID'),
+
 	GOOGLE_DATA_TABLE_ID:
 		(MODE === 'dev'
 			? Deno.env.get('DEV__GOOGLE_DATA_TABLE_ID')
