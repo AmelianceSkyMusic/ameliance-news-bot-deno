@@ -6,7 +6,7 @@ export type HandleAppError = ErrorHandler;
 
 const APP_NAME = Deno.env.get('APP_NAME');
 
-export function handleAppErrorHelper(error: unknown, status?: number): ReturnErrorHandler {
+export async function handleAppErrorHelper(error: unknown, status?: number): ReturnErrorHandler {
 	const returnedError = errorHandler({
 		error,
 		status,
@@ -16,7 +16,7 @@ export function handleAppErrorHelper(error: unknown, status?: number): ReturnErr
 	});
 
 	ENV.OWNER_ID
-		? bot.api.sendMessage(
+		? await bot.api.sendMessage(
 			ENV.OWNER_ID,
 			`<blockquote><b>❗️ERROR: ${APP_NAME} > ${returnedError.code} | ${returnedError.message}</b></blockquote>\n<code>${
 				new Error().stack
@@ -33,6 +33,6 @@ export function handleAppErrorHelper(error: unknown, status?: number): ReturnErr
 	return returnedError;
 }
 
-export function handleAppError(error: unknown, status?: number) {
-	return handleAppErrorHelper(error, status);
+export async function handleAppError(error: unknown, status?: number) {
+	return await handleAppErrorHelper(error, status);
 }

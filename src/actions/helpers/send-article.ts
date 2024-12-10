@@ -21,7 +21,7 @@ export async function getHTMLData(url: string) {
 	try {
 		const data = await fetch(url);
 		if (!data.ok) {
-			handleAppError(`Error fetching data: ${data.status} ${data.statusText}`);
+			await handleAppError(`Error fetching data: ${data.status} ${data.statusText}`);
 			return null;
 		}
 		const contentType = data.headers.get('Content-Type');
@@ -39,7 +39,7 @@ export async function getHTMLData(url: string) {
 
 		return html;
 	} catch (error) {
-		handleAppError(error);
+		await handleAppError(error);
 	}
 }
 
@@ -98,7 +98,7 @@ export async function sendArticle(finalMessage?: string) {
 
 		await data.article.markAsPosted(respArticle?._id);
 	} catch (error) {
-		handleAppError(error);
+		await handleAppError(error);
 		await sendArticle();
 	} finally {
 		if (finalMessage) await bot.api.sendMessage(Number(ENV.OWNER_ID), finalMessage);
