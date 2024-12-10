@@ -11,7 +11,7 @@ export function post() {
 
 			await sendArticle();
 		} catch (error) {
-			handleAppError(ctx, error);
+			await handleAppError(ctx, error);
 		}
 	});
 }
