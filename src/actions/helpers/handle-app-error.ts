@@ -15,7 +15,7 @@ export function handleAppErrorHelper(error: unknown, status?: number): ReturnErr
 		wrapperCount: 1,
 	});
 
-	ENV.LOG_CHAT_ID
+	ENV.OWNER_ID
 		? bot.api.sendMessage(
 			ENV.OWNER_ID,
 			`<blockquote><b>❗️ERROR: ${APP_NAME} > ${returnedError.code} | ${returnedError.message}</b></blockquote>\n<code>${
