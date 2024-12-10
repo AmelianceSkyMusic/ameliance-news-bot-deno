@@ -19,7 +19,7 @@ export function message() {
 			const articleText = text?.split('\n').splice(1).join('\n').trim();
 			if (!articleText) return;
 
-			const postAsHTML = await generateBimbaPostAsHTML(ctx, { text: articleText });
+			const postAsHTML = await generateBimbaPostAsHTML({ text: articleText });
 			if (!postAsHTML) return;
 
 			await ctx.api.sendPhoto(Number(ENV.BIMBA_NEWS_ID), postPhoto, {
