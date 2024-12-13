@@ -7,11 +7,14 @@ import { onMessagePostMenu } from '../menu/on-message-post-menu.ts';
 import { generateBimbaPostAsHTML } from './generate-bimba-post-as-html.ts';
 import { getArticleToPost } from './get-article-to-post.ts';
 
-async function isImageUrlValid(imageUrl: string): Promise<boolean | undefined> {
+async function isImageUrlValid(imageUrl: string): Promise<boolean> {
 	try {
 		const response = await fetch(imageUrl, { method: 'HEAD' });
 		const contentType = response.headers.get('content-type');
-		return contentType?.startsWith('image/') && !contentType.includes('avif');
+		if (!contentType) return false;
+
+		const validFormats = ['image/jpeg', 'image/png', 'image/webp'];
+		return validFormats.includes(contentType);
 	} catch {
 		return false;
 	}
