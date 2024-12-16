@@ -20,6 +20,7 @@ const articleSchema = new Schema<ArticleType>(
 		},
 		postedAtTelegramAt: { type: Date, index: true },
 		postedAttempts: { type: Number },
+		skipped: { type: Boolean },
 	} as const,
 	{ timestamps: true },
 );

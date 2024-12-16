@@ -5,14 +5,23 @@ export const article = {
 	async getUnpostedArticle() {
 		return await ArticleSchema.findOne({
 			postedAtTelegramAt: null,
-			$or: [{ postedAttempts: { $lt: 3 } }, { postedAttempts: { $exists: false } }],
+			skipped: { $ne: true },
 		}).sort({ createdAt: 1 });
 	},
 
-	async incrementAttempts(articleId: string) {
+	async incrementPostAttempts(articleId: string) {
 		const article = await ArticleSchema.findById(articleId);
-		if (!article) null;
-		article.attempts = (article.attempts || 0) + 1;
+		if (!article) return null;
+		article.postedAttempts = (article.postedAttempts || 0) + 1;
+		if (article.postedAttempts >= 3) article.skipped = true;
+		await article.save();
+		return article;
+	},
+
+	async markAsSkipped(articleId: string) {
+		const article = await ArticleSchema.findById(articleId);
+		if (!article) return null;
+		article.skipped = true;
 		await article.save();
 		return article;
 	},
@@ -48,5 +57,13 @@ export const article = {
 		}
 
 		return newArticles.length; //* Number of added articles
+	},
+
+	async setSkipped(articleId: string) {
+		const article = await ArticleSchema.findById(articleId);
+		if (!article) return null;
+		article.skipped = true;
+		await article.save();
+		return article;
 	},
 };

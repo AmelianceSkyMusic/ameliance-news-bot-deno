@@ -10,5 +10,6 @@ export type Article = {
 		url: string;
 	};
 	postedAtTelegramAt?: Date;
-	postedTries?: number;
+	postedAttempts?: number;
+	skipped?: boolean;
 };
