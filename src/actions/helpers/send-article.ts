@@ -95,7 +95,11 @@ export async function sendArticle(finalMessage?: string) {
 		if (!textContent) return await data.article.setSkipped(respArticle?._id);
 
 		const postAsHTML = await generateBimbaPostAsHTML({ title, text: textContent });
-		if (!postAsHTML) return await data.article.setSkipped(respArticle?._id);
+		if (!postAsHTML) {
+			await data.article.incrementPostAttempts(respArticle?._id);
+			await sendArticle();
+			return;
+		}
 
 		await bot.api.sendPhoto(Number(ENV.BIMBA_NEWS_ID), new InputFile(new URL(image)), {
 			caption: postAsHTML,
