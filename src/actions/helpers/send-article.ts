@@ -56,7 +56,8 @@ export async function sendArticle(finalMessage?: string) {
 			await bot.api.sendMessage(Number(ENV.OWNER_ID), 'NO FRESH ARTICLE!😢');
 			return;
 		}
-		await data.article.incrementAttempts(respArticle?._id);
+
+		await data.article.incrementPostAttempts(respArticle?._id);
 
 		const {
 			title,
@@ -88,13 +89,13 @@ export async function sendArticle(finalMessage?: string) {
 
 		const htmlData = await getHTMLData(url);
 
-		if (!htmlData) return;
+		if (!htmlData) return await data.article.setSkipped(respArticle?._id);
 
 		const textContent = getTextFromHTML(htmlData);
-		if (!textContent) return;
+		if (!textContent) return await data.article.setSkipped(respArticle?._id);
 
 		const postAsHTML = await generateBimbaPostAsHTML({ title, text: textContent });
-		if (!postAsHTML) return;
+		if (!postAsHTML) return await data.article.setSkipped(respArticle?._id);
 
 		await bot.api.sendPhoto(Number(ENV.BIMBA_NEWS_ID), new InputFile(new URL(image)), {
 			caption: postAsHTML,
