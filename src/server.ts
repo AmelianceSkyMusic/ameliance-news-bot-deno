@@ -5,6 +5,14 @@ import { sendArticle } from './actions/helpers/send-article.ts';
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
 
+const WEBHOOK_ENDPOINT = Deno.env.get('WEBHOOK_ENDPOINT');
+
+if (!WEBHOOK_ENDPOINT) {
+	console.error('WEBHOOK_ENDPOINT is not set. Please check your environment configuration');
+}
+
+await bot.api.setWebhook(WEBHOOK_ENDPOINT);
+
 const handleUpdate = webhookCallback(bot, 'std/http');
 
 Deno.serve(async (req: Request) => {
