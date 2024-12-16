@@ -11,7 +11,11 @@ if (!WEBHOOK_ENDPOINT) {
 	console.error('WEBHOOK_ENDPOINT is not set. Please check your environment configuration');
 }
 
-await bot.api.setWebhook(WEBHOOK_ENDPOINT);
+const webhookInfo = await bot.api.getWebhookInfo();
+if (webhookInfo.url !== WEBHOOK_ENDPOINT) {
+	console.log('webhookInfo: ', webhookInfo);
+	await bot.api.setWebhook(WEBHOOK_ENDPOINT);
+}
 
 const handleUpdate = webhookCallback(bot, 'std/http');
 
