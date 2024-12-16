@@ -11,23 +11,7 @@ if (!WEBHOOK_ENDPOINT) {
 	console.error('WEBHOOK_ENDPOINT is not set. Please check your environment configuration');
 }
 
-async function ensureWebhook() {
-	try {
-		const webhookInfo = await bot.api.getWebhookInfo();
-
-		if (!webhookInfo.url || webhookInfo.url !== WEBHOOK_ENDPOINT) {
-			await bot.api.setWebhook(WEBHOOK_ENDPOINT);
-			console.log('Webhook successfully is set!');
-		} else {
-			console.log('Webhook already set correctly!');
-		}
-	} catch (error) {
-		console.error('Webhook setup error:', error);
-	}
-}
-
-// Викликаємо функцію перед Deno.serve
-await ensureWebhook();
+await bot.api.setWebhook(WEBHOOK_ENDPOINT);
 
 const handleUpdate = webhookCallback(bot, 'std/http');
 
