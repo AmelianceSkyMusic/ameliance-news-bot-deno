@@ -88,7 +88,7 @@ export async function getHolychordsAudioFile(attempts = 0) {
 
 		// const titleContent = songTitle ? `<a href="${url}"><b>→</b></a>\n` : '';
 		// const sendOptions = { caption: titleContent, parse_mode: 'HTML' };
-		const sendOptions = {};
+		const sendOptions: Record<string, unknown> = {};
 
 		if (matchDownloadUrl && matchDownloadUrl[1]) {
 			const downloadMp3Url = `${holychordsURL}${matchDownloadUrl[1]}`;
@@ -105,12 +105,7 @@ export async function getHolychordsAudioFile(attempts = 0) {
 			if (picture?.data) {
 				const isValidImage = await isImageValid(picture?.data);
 				if (isValidImage) {
-					const tmpThumbPath = await Deno.makeTempFile({ suffix: '.jpg' });
-					await Deno.writeFile(tmpThumbPath, picture?.data);
-
-					sendOptions.thumb = new InputFile(await Deno.readFile(tmpThumbPath));
-
-					setTimeout(() => Deno.remove(tmpThumbPath));
+					sendOptions.thumb = new InputFile(picture?.data);
 				} else {
 					console.log('Неправильний формат зображення або занадто великий розмір.');
 					return;
