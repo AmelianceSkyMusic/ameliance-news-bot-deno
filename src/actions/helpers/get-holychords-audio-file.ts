@@ -56,7 +56,8 @@ async function prepareLink(url: string) {
 
 	return {
 		buffer: audioBuffer,
-		artist: metadata.common?.artist ||
+		artist:
+			metadata.common?.artist ||
 			(metadata.common?.artists ? metadata.common.artists.join(', ') : ''),
 		title: newTitle,
 		picture: metadata.common?.picture?.[0],
@@ -69,11 +70,11 @@ export async function getHolychordsAudioFile(attempts = 0) {
 	try {
 		const randomSongId = getRandomNumber(1, 99_999);
 		const url = `${holychordsURL}/${randomSongId}`;
+		console.log('url: ', url);
 
 		const htmlData = await getHTMLData(url);
-		if (!htmlData) {
-			if (attempts < MAX_ATTEMPTS) await getHolychordsAudioFile(attempts + 1);
-			return;
+		if (!htmlData || attempts < MAX_ATTEMPTS) {
+			return await getHolychordsAudioFile(attempts + 1);
 		}
 
 		const matchArtist = htmlData.match(REGEXP.holychordsSongArtist);
@@ -96,9 +97,8 @@ export async function getHolychordsAudioFile(attempts = 0) {
 			const { buffer, artist, title, picture } = await prepareLink(downloadMp3Url);
 
 			const fileSizeInMB = buffer.length / (1024 * 1024);
-			if (fileSizeInMB > 50) {
-				if (attempts < MAX_ATTEMPTS) await getHolychordsAudioFile(attempts + 1);
-				return;
+			if (fileSizeInMB > 50 || attempts < MAX_ATTEMPTS) {
+				return await getHolychordsAudioFile(attempts + 1);
 			}
 
 			const mp3FileTitle = `${[artist, title].join(' - ')}.mp3`;
@@ -118,10 +118,10 @@ export async function getHolychordsAudioFile(attempts = 0) {
 				sendOptions,
 			);
 		} else {
-			if (attempts < MAX_ATTEMPTS) await getHolychordsAudioFile(attempts + 1);
+			if (attempts < MAX_ATTEMPTS) return await getHolychordsAudioFile(attempts + 1);
 		}
 	} catch (error) {
 		await handleAppErrorWithNoContext(error);
-		if (attempts < MAX_ATTEMPTS) await getHolychordsAudioFile(attempts + 1);
+		if (attempts < MAX_ATTEMPTS) return await getHolychordsAudioFile(attempts + 1);
 	}
 }
