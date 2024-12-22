@@ -26,12 +26,15 @@ export type {
 
 export {
 	getHTMLData,
+	getLinksFromMessage,
 	getTextFromHTML,
 	handleAppError,
 	hasAccess,
 	logUserInfo,
 	prepareEditMessageText,
 	removeMessageById,
+	replyWithAudio,
 	runWithRandomInterval,
 	sendPromptGemini,
 } from '~ameliance-telegram-scripts-deno/src/index.ts';
+// } from './submodules/ameliance-telegram-scripts-deno/src/index.ts';

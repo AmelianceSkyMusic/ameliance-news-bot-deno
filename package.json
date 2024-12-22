@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "bot.ts",
 	"scripts": {
-		"dev": "deno fmt && deno run --allow-net --allow-import --allow-read --allow-env --env-file --allow-sys --watch src/poll.ts",
+		"dev": "deno fmt && deno run --allow-net --allow-import --allow-read --allow-write --allow-env --env-file --allow-sys --watch src/poll.ts",
 		"dev-unsafe": "deno fmt && deno run --unsafely-ignore-certificate-errors --allow-net --allow-import --allow-read --allow-env --env-file --allow-sys --watch src/poll.ts",
 		"dev-reload": "deno fmt && deno run --allow-net --allow-import --allow-read --allow-env --env-file --allow-sys --reload src/poll.ts",
 		"reload-cash": "rm -rf deno.lock node_modules/ && deno cache --allow-import --reload ./src/**/*.ts"

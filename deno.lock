@@ -3,7 +3,9 @@
   "specifiers": {
     "npm:@google/generative-ai@*": "0.21.0",
     "npm:ameliance-scripts@*": "0.4.106",
-    "npm:mongoose@^8.8.3": "8.8.4"
+    "npm:mongoose@^8.8.3": "8.9.2",
+    "npm:music-metadata@*": "10.6.4",
+    "npm:node-id3@*": "0.2.6"
   },
   "npm": {
     "@google/generative-ai@0.21.0": {
@@ -14,6 +16,12 @@
       "dependencies": [
         "sparse-bitfield"
       ]
+    },
+    "@sec-ant/readable-stream@0.4.1": {
+      "integrity": "sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg=="
+    },
+    "@tokenizer/token@0.3.0": {
+      "integrity": "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="
     },
     "@types/webidl-conversions@7.0.3": {
       "integrity": "sha512-CiJJvcRtIgzadHCYXw7dqEnMNRjhGZlYK05Mj9OyktqV8uVT8fD2BFOB7S1uwBE3Kj2Z+4UyPmFw/Ixgw/LAlA=="
@@ -30,14 +38,51 @@
     "bson@6.10.1": {
       "integrity": "sha512-P92xmHDQjSKPLHqFxefqMxASNq/aWJMEZugpCjf+AF/pgcUpMMQCg7t7+ewko0/u8AapvF3luf/FoehddEK+sA=="
     },
+    "content-type@1.0.5": {
+      "integrity": "sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA=="
+    },
     "debug@4.4.0": {
       "integrity": "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==",
       "dependencies": [
         "ms"
       ]
     },
+    "file-type@19.6.0": {
+      "integrity": "sha512-VZR5I7k5wkD0HgFnMsq5hOsSc710MJMu5Nc5QYsbe38NN5iPV/XTObYLc/cpttRTf6lX538+5uO1ZQRhYibiZQ==",
+      "dependencies": [
+        "get-stream",
+        "strtok3@9.1.1",
+        "token-types",
+        "uint8array-extras"
+      ]
+    },
+    "get-stream@9.0.1": {
+      "integrity": "sha512-kVCxPF3vQM/N0B1PmoqVUqgHP+EeVjmZSQn+1oCRPxd2P21P2F19lIgbR3HBosbB1PUhOAoctJnfEn2GbN2eZA==",
+      "dependencies": [
+        "@sec-ant/readable-stream",
+        "is-stream"
+      ]
+    },
+    "iconv-lite@0.6.2": {
+      "integrity": "sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ==",
+      "dependencies": [
+        "safer-buffer"
+      ]
+    },
+    "ieee754@1.2.1": {
+      "integrity": "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="
+    },
+    "is-stream@4.0.1": {
+      "integrity": "sha512-Dnz92NInDqYckGEUJv689RbRiTSEHCQ7wOVeALbkOz999YpqT46yMRIGtSNl2iCL1waAZSx40+h59NV/EwzV/A=="
+    },
     "kareem@2.6.3": {
       "integrity": "sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q=="
+    },
+    "link@2.1.1": {
+      "integrity": "sha512-NV3AUVYBovJ6eVQcTeRoPnZSxzt2LOijNd+ugEZKRy/XeQlpTRhVRkuDv5kOlXwMAUx30vfUc7asRFb9RT65yg=="
+    },
+    "media-typer@1.1.0": {
+      "integrity": "sha512-aisnrDP4GNe06UcKFnV5bfMNPBUw4jsLGaWwWfnH3v02GnBuXX2MCVn5RbrWo0j3pczUilYblq7fQ7Nw2t5XKw=="
     },
     "memory-pager@1.5.0": {
       "integrity": "sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg=="
@@ -49,16 +94,16 @@
         "whatwg-url"
       ]
     },
-    "mongodb@6.10.0": {
-      "integrity": "sha512-gP9vduuYWb9ZkDM546M+MP2qKVk5ZG2wPF63OvSRuUbqCR+11ZCAE1mOfllhlAG0wcoJY5yDL/rV3OmYEwXIzg==",
+    "mongodb@6.12.0": {
+      "integrity": "sha512-RM7AHlvYfS7jv7+BXund/kR64DryVI+cHbVAy9P61fnb1RcWZqOW1/Wj2YhqMCx+MuYhqTRGv7AwHBzmsCKBfA==",
       "dependencies": [
         "@mongodb-js/saslprep",
         "bson",
         "mongodb-connection-string-url"
       ]
     },
-    "mongoose@8.8.4": {
-      "integrity": "sha512-yJbn695qCsqDO+xyPII29x2R7flzXhxCDv09mMZPSGllf0sm4jKw3E9s9uvQ9hjO6bL2xjU8KKowYqcY9eSTMQ==",
+    "mongoose@8.9.2": {
+      "integrity": "sha512-mLWynmZS1v8HTeMxyLhskQncS1SkrjW1eLNuFDYGQMQ/5QrFrxTLNwWXeCRZeKT2lXyaxW8bnJC9AKPT9jYMkw==",
       "dependencies": [
         "bson",
         "kareem",
@@ -81,8 +126,34 @@
     "ms@2.1.3": {
       "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
     },
+    "music-metadata@10.6.4": {
+      "integrity": "sha512-42ekQ5CRic4Pvw/85FfzMKegeRDHyWBpCjSSI1B9PTGqaevZ17ASA4v4W6MRq1ELC5THn5rD8S+82iPQ6gv6lw==",
+      "dependencies": [
+        "@tokenizer/token",
+        "content-type",
+        "debug",
+        "file-type",
+        "link",
+        "media-typer",
+        "strtok3@10.0.1",
+        "token-types",
+        "uint8array-extras"
+      ]
+    },
+    "node-id3@0.2.6": {
+      "integrity": "sha512-w8GuKXLlPpDjTxLowCt/uYMhRQzED3cg2GdSG1i6RSGKeDzPvxlXeLQuQInKljahPZ0aDnmyX7FX8BbJOM7REg==",
+      "dependencies": [
+        "iconv-lite"
+      ]
+    },
+    "peek-readable@5.3.1": {
+      "integrity": "sha512-GVlENSDW6KHaXcd9zkZltB7tCLosKB/4Hg0fqBJkAoBgYG2Tn1xtMgXtSUuMU9AK/gCm/tTdT8mgAeF4YNeeqw=="
+    },
     "punycode@2.3.1": {
       "integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg=="
+    },
+    "safer-buffer@2.1.2": {
+      "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="
     },
     "sift@17.1.3": {
       "integrity": "sha512-Rtlj66/b0ICeFzYTuNvX/EF1igRbbnGSvEyT79McoZa/DeGhMyC5pWKOEsZKnpkqtSeovd5FL/bjHWC3CIIvCQ=="
@@ -93,11 +164,35 @@
         "memory-pager"
       ]
     },
+    "strtok3@10.0.1": {
+      "integrity": "sha512-7OOJepVlvlcgjW/fLNCsIqpNleAoi1y0LTRWGnOpABOSpRmw+65HvnruoOCnjpaQ1efnlYpQ/JwHKuaombnuXQ==",
+      "dependencies": [
+        "@tokenizer/token",
+        "peek-readable"
+      ]
+    },
+    "strtok3@9.1.1": {
+      "integrity": "sha512-FhwotcEqjr241ZbjFzjlIYg6c5/L/s4yBGWSMvJ9UoExiSqL+FnFA/CaeZx17WGaZMS/4SOZp8wH18jSS4R4lw==",
+      "dependencies": [
+        "@tokenizer/token",
+        "peek-readable"
+      ]
+    },
+    "token-types@6.0.0": {
+      "integrity": "sha512-lbDrTLVsHhOMljPscd0yitpozq7Ga2M5Cvez5AjGg8GASBjtt6iERCAJ93yommPmz62fb45oFIXHEZ3u9bfJEA==",
+      "dependencies": [
+        "@tokenizer/token",
+        "ieee754"
+      ]
+    },
     "tr46@4.1.1": {
       "integrity": "sha512-2lv/66T7e5yNyhAAC4NaKe5nVavzuGJQVVtRYLyQ2OI8tsJ61PMLlelehb0wi2Hx6+hT/OJUWZcw8MjlSRnxvw==",
       "dependencies": [
         "punycode"
       ]
+    },
+    "uint8array-extras@1.4.0": {
+      "integrity": "sha512-ZPtzy0hu4cZjv3z5NW9gfKnNLjoz4y6uv4HlelAjDK7sY/xOkKZv9xK/WQpcsBB3jEybChz9DPC2U/+cusjJVQ=="
     },
     "webidl-conversions@7.0.0": {
       "integrity": "sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g=="
@@ -191,6 +286,43 @@
     "https://deno.land/x/grammy_types@v3.17.0/passport.ts": "19820e7d6c279521f8bc8912d6a378239f73d4ab525453808994b5f44ef95215",
     "https://deno.land/x/grammy_types@v3.17.0/payment.ts": "ae266a858e84654511d6e17c15df03c213a151d1e9ac373f27c94c05eec9e26d",
     "https://deno.land/x/grammy_types@v3.17.0/settings.ts": "f8ff810da6f1007ed24cd504809bf46820229c395ff9bfc3e5c8ceaef5b2aae1",
-    "https://deno.land/x/grammy_types@v3.17.0/update.ts": "71cc0d5ec860149b71415ba03282b1d7edd0466b36e2789521a3b3a3d7796493"
+    "https://deno.land/x/grammy_types@v3.17.0/update.ts": "71cc0d5ec860149b71415ba03282b1d7edd0466b36e2789521a3b3a3d7796493",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/deps.deno.ts": "675be35a5bddd5f128c74a6847bd58d32c7d1d53c99ce75d73bd0f4ea8018e9b",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/auto-removable-message.ts": "53f1ccfded206a9fd49229cb6230f9b6f3201ac730ac6f75ccfbd48355188377",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/generate-full-name.ts": "22436ceedb3bec979d9f0c662dd49c0635b909815c1de68863bdea6018476daf",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/generate-replying-user-full-name-tag.ts": "90e1d7d0c59dd8ae224d227fa7403be67d6e7298bc0a8e0022aca23d6de8ea37",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/generate-user-full-name-tag.ts": "86b4e8ad5cb11d52a92ada5e242ae987b67c1d190a6babaad2c86cae19e048b7",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/generate-user-tag.ts": "87a896555b73ccc440f76929d2a14cd721739681caa0aaf3f58ae21764864804",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-current-message-chat-info.ts": "e3c40dc633645384c61f604bc5efe386b53e37c8a4e96cdb3fa65b22eb2bfc58",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-current-message-user-info.ts": "85349a89fce5e1141459026bc2a809c13ca5163917f1a0a04b8a95631d1f970a",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-date-from-ua-string.ts": "e95429d2157362e1fdad3ee5e003d8514ef9ba8fa7a682f9e38fef155662e286",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-html-data.ts": "4e6b70a0a0232c26ba88968e334d7e46e1f7d98b3278952048b094fb0cca8ae0",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-id-from-youtube-url.ts": "c1d7627589535e1b48369e3bd0e3d0d7621d7c3ee8c1efbb3bcda59616daf284",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-links-from-message.ts": "beaca9c624e7e4bbd6ee802bf76eeb38313c8a3ba1819a455313235e8639168d",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/get-text-form-html.ts": "dacdae1f121b6c4ae3922ab7d57d1bb14aa0289fd949706626e7e2c9a972df89",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/handle-app-error.ts": "ad65fe63df4cb905e2166251ef18509cc6d30ee93bd0e0aa4c451630ff6dc8c5",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/has-access.ts": "e3f9df6565aec40883360818ffd3eaedcb4392367b3a0075b8fc51db845aa881",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/has-channel-id-access.ts": "af6d72e2faf4d50bf1d7bd317ed1c631ba414aa1faead067923cb576044f3572",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/has-chat-id-access.ts": "5eb9ddd9e2e9e3135e911a9c693d60c6a8dd9d14dab52466c3f4c815ffbfa6f8",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/has-user-id-access.ts": "9692056fdb87aa76d93f6dd6cf503401662b4d47af4c7bfcbc3b300ac98a8851",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/has-username-access.ts": "9fd80febcc83824b5b8a8325dcc0be9b7dd5f11bdbe7f317675f5a7f491207e1",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/index.ts": "6f2e640cf278d11d6197ef0047dad19ddde78f033758d1ee77defd19701347a3",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/is-current-chat-with-bot.ts": "087912dd79cd4913e91c720171cda7c733e36be63d72eb4eec7acb0e22314f45",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/is-owner-access.ts": "a92af3c08da2fb4efb6bcfa4b530d2e8e8979db96756c772edf9eeb51c81fc16",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/log-user-info.ts": "96e9b0812f0750ac98c2bfdf08fcdf669a70246c6bc241b12de5710b3164652a",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/prepare-edit-message-text.ts": "630e9a77de0f66f6fd5b2bdd4a5b95bd90473a39558f87fc823ffb6a22f4314d",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/prepare-gemini-answer-to-telegram-html.ts": "1bde197779b26e2466012b58993429afc5b17a6c6976f233c3b135de0e9a12f3",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/remove-message-by-id.ts": "80635f9026aa4997c4228a4b9e42a4d1bc25eb63a669d68a94e2566109e3ff1b",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/reply-html.ts": "a1411f0a0a4b3ce30bf0347ff6227b2e4ab8c70e6715db62202ee7be4fc3d3bd",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/reply-with-audio.ts": "a76db5425b2cc73accadc1df9c4098e1e0ccfbc98c0496ff03480694f051c6cc",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/reply.ts": "43da6eb6c144cc457630653fd4ee2ce4d5e718f5a7eb06d6793f5f5fb30614cb",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/run-with-random-interval.ts": "0f1068f141a63b05e0964d3ebcb479384554ff455aeb17eb06e7e9e76e922cb5",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/send-message-html.ts": "5bd21172aa59ad8a605e718d488c3798fdb10f729b349cf8454b36c41888793f",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/send-message.ts": "23d69d7a7a714be4b0361d5267995b0a39d10f0c0065eb4f6babfcbdf8c91e9c",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/send-messages-to-chats-html.ts": "ef2c5c16209852a7d2de10838921fa9f3f59a0109a99c26608addfaf586d89e3",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/send-messages-to-chats.ts": "3d173214114c2ce0564b7dfa16f188f8d801d1161ffe13f03ff32776a2498e57",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/send-prompt-gemini.ts": "b8c4159a4e6d82ca25675decd776a384e3539a5b0486344ba5b3680952dcce51",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/split-test-on-messages.ts": "e27319cd2092030ccc3d7287b030d66e19d7bc6abe31f6bbb403ecc713eb8e5b",
+    "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/src/types/user-id.ts": "c122dbbe060890071852d73af81f3ca684435adefdf6a91e0af9f56f525a74dc"
   }
 }
