@@ -1,6 +1,6 @@
 import { ErrorHandler, errorHandler, joinWith, ReturnErrorHandler } from 'npm:ameliance-scripts';
-import { bot } from '../../bot.ts';
-import { ENV } from '../../constants/env.ts';
+import { ENV } from '../../../constants/env.ts';
+import { bot } from '../../../bot.ts';
 
 export type HandleAppError = ErrorHandler;
 

@@ -1,11 +1,11 @@
-import { bot } from '../../bot.ts';
+import { bot, onMessagePostMenu } from '../../bot.ts';
 import { ENV } from '../../constants/env.ts';
-import { getTextFromHTML, InputFile } from '../../deps.deno.ts';
-import { handleAppErrorWithNoContext } from './handle-app-error-with-no-context.ts';
+import { InputFile } from '../../deps.deno.ts';
+import { getTextFromHTML } from '../../deps.deno.ts';
 import { data } from '../../libs/db/data/index.ts';
-import { onMessagePostMenu } from '../menu/on-message-post-menu.ts';
 import { generateBimbaPostAsHTML } from './generate-bimba-post-as-html.ts';
 import { getArticleToPost } from './get-article-to-post.ts';
+import { handleAppErrorWithNoContext } from './no-context/handle-app-error-with-no-context.ts';
 
 async function isImageUrlValid(imageUrl: string): Promise<boolean> {
 	try {

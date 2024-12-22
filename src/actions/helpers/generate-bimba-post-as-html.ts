@@ -1,6 +1,6 @@
 import { bot } from '../../bot.ts';
 import { Message, sendPromptGemini } from '../../deps.deno.ts';
-import { handleAppErrorWithNoContext } from './handle-app-error-with-no-context.ts';
+import { handleAppErrorWithNoContext } from './no-context/handle-app-error-with-no-context.ts';
 import { ENV } from '../../constants/env.ts';
 
 const getTitle = (title: string) =>

@@ -2,7 +2,7 @@ import { ENV } from '../../constants/env.ts';
 import { data } from '../../libs/db/data/index.ts';
 
 import type { GNews } from '../../types/g-news.ts';
-import { handleAppErrorWithNoContext } from './handle-app-error-with-no-context.ts';
+import { handleAppErrorWithNoContext } from './no-context/handle-app-error-with-no-context.ts';
 
 export async function getArticleToPost() {
 	try {

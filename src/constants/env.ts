@@ -14,6 +14,10 @@ export const ENV = {
 	OWNER_ID: (MODE === 'dev' ? Deno.env.get('DEV__OWNER_ID') : Deno.env.get('OWNER_ID')) ||
 		Deno.env.get('OWNER_ID'),
 
+	HOLYCHORDS_PRO_ID:
+		(MODE === 'dev' ? Deno.env.get('DEV__HOLYCHORDS_PRO_ID') : Deno.env.get('HOLYCHORDS_PRO_ID')) ||
+		Deno.env.get('HOLYCHORDS_PRO_ID'),
+
 	GOOGLE_DATA_TABLE_ID:
 		(MODE === 'dev'
 			? Deno.env.get('DEV__GOOGLE_DATA_TABLE_ID')

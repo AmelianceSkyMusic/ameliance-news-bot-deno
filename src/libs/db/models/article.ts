@@ -25,8 +25,6 @@ const articleSchema = new Schema<ArticleType>(
 	{ timestamps: true },
 );
 
-articleSchema.index({ title: 1 }, { unique: true });
-
 export const ArticleSchema: Model<ArticleDocument> = model<ArticleDocument>(
 	'Article',
 	articleSchema,

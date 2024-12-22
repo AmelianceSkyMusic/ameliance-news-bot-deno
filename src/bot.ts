@@ -24,4 +24,5 @@ export const onMessagePostMenu = actions.menu.onMessagePostMenu();
 actions.command.start();
 actions.command.post();
 actions.command.postInterval();
+actions.command.postHolychords();
 actions.on.message();
