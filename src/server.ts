@@ -48,6 +48,7 @@ Deno.serve(async (req: Request) => {
 
 	if (req.method === 'GET') {
 		if (url.pathname === '/send-article') {
+			console.log('/send-article');
 			try {
 				const fiveMinInMs = 5 * 60 * 1000;
 				const randomDelay = getRandomNumber(0, fiveMinInMs);
@@ -64,6 +65,7 @@ Deno.serve(async (req: Request) => {
 		}
 		if (url.pathname === '/send-holychords-song') {
 			try {
+				console.log('/send-holychords-song');
 				const fiveMinInMs = 5 * 60 * 1000;
 				const randomDelay = getRandomNumber(0, fiveMinInMs);
 
