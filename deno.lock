@@ -3,6 +3,7 @@
   "specifiers": {
     "npm:@google/generative-ai@*": "0.21.0",
     "npm:ameliance-scripts@*": "0.4.106",
+    "npm:franc@*": "6.2.0",
     "npm:mongoose@^8.8.3": "8.9.2",
     "npm:music-metadata@*": "10.6.4",
     "npm:node-id3@*": "0.2.6"
@@ -38,6 +39,9 @@
     "bson@6.10.1": {
       "integrity": "sha512-P92xmHDQjSKPLHqFxefqMxASNq/aWJMEZugpCjf+AF/pgcUpMMQCg7t7+ewko0/u8AapvF3luf/FoehddEK+sA=="
     },
+    "collapse-white-space@2.1.0": {
+      "integrity": "sha512-loKTxY1zCOuG4j9f6EPnuyyYkf58RnhhWTvRoZEokgB+WbdXehfjFviyOVYkqzEWz1Q5kRiZdBYS5SwxbQYwzw=="
+    },
     "content-type@1.0.5": {
       "integrity": "sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA=="
     },
@@ -54,6 +58,12 @@
         "strtok3@9.1.1",
         "token-types",
         "uint8array-extras"
+      ]
+    },
+    "franc@6.2.0": {
+      "integrity": "sha512-rcAewP7PSHvjq7Kgd7dhj82zE071kX5B4W1M4ewYMf/P+i6YsDQmj62Xz3VQm9zyUzUXwhIde/wHLGCMrM+yGg==",
+      "dependencies": [
+        "trigram-utils"
       ]
     },
     "get-stream@9.0.1": {
@@ -140,6 +150,9 @@
         "uint8array-extras"
       ]
     },
+    "n-gram@2.0.2": {
+      "integrity": "sha512-S24aGsn+HLBxUGVAUFOwGpKs7LBcG4RudKU//eWzt/mQ97/NMKQxDWHyHx63UNWk/OOdihgmzoETn1tf5nQDzQ=="
+    },
     "node-id3@0.2.6": {
       "integrity": "sha512-w8GuKXLlPpDjTxLowCt/uYMhRQzED3cg2GdSG1i6RSGKeDzPvxlXeLQuQInKljahPZ0aDnmyX7FX8BbJOM7REg==",
       "dependencies": [
@@ -189,6 +202,13 @@
       "integrity": "sha512-2lv/66T7e5yNyhAAC4NaKe5nVavzuGJQVVtRYLyQ2OI8tsJ61PMLlelehb0wi2Hx6+hT/OJUWZcw8MjlSRnxvw==",
       "dependencies": [
         "punycode"
+      ]
+    },
+    "trigram-utils@2.0.1": {
+      "integrity": "sha512-nfWIXHEaB+HdyslAfMxSqWKDdmqY9I32jS7GnqpdWQnLH89r6A5sdk3fDVYqGAZ0CrT8ovAFSAo6HRiWcWNIGQ==",
+      "dependencies": [
+        "collapse-white-space",
+        "n-gram"
       ]
     },
     "uint8array-extras@1.4.0": {

@@ -9,6 +9,7 @@ import { ENV } from '../../constants/env.ts';
 import { REGEXP } from '../../constants/regexp.ts';
 import { getHTMLData } from './get-html-data.ts';
 import { handleAppErrorWithNoContext } from './no-context/handle-app-error-with-no-context.ts';
+import { franc } from 'npm:franc';
 
 const holychordsURL = 'https://holychords.pro';
 const holychordsTitlePostfix = ' - holychords.pro';
@@ -64,16 +65,26 @@ async function prepareLink(url: string) {
 	};
 }
 
-const MAX_ATTEMPTS = 10;
+const MAX_ATTEMPTS = 30;
 
 export async function getHolychordsAudioFile(attempts = 0) {
+	if (attempts > MAX_ATTEMPTS) return;
+
 	try {
 		const randomSongId = getRandomNumber(1, 99_999);
 		const url = `${holychordsURL}/${randomSongId}`;
+		// const url = 'https://holychords.pro/63958'; //Штанішкі коротішкі
 		console.log('url: ', url);
 
 		const htmlData = await getHTMLData(url);
-		if (!htmlData || attempts < MAX_ATTEMPTS) {
+		if (!htmlData) return await getHolychordsAudioFile(attempts + 1);
+
+		const matchMusicText = htmlData.match(REGEXP.holychordsMusicText);
+		if (!matchMusicText) return await getHolychordsAudioFile(attempts + 1);
+		const musicText = matchMusicText[1].trim();
+		const musicTextLang = franc(musicText);
+		console.log('musicTextLang: ', musicTextLang);
+		if (musicTextLang !== 'eng' && musicTextLang !== 'ukr') {
 			return await getHolychordsAudioFile(attempts + 1);
 		}
 
@@ -97,9 +108,7 @@ export async function getHolychordsAudioFile(attempts = 0) {
 			const { buffer, artist, title, picture } = await prepareLink(downloadMp3Url);
 
 			const fileSizeInMB = buffer.length / (1024 * 1024);
-			if (fileSizeInMB > 50 || attempts < MAX_ATTEMPTS) {
-				return await getHolychordsAudioFile(attempts + 1);
-			}
+			if (fileSizeInMB > 50) return await getHolychordsAudioFile(attempts + 1);
 
 			const mp3FileTitle = `${[artist, title].join(' - ')}.mp3`;
 			if (picture?.data) {
@@ -118,10 +127,10 @@ export async function getHolychordsAudioFile(attempts = 0) {
 				sendOptions,
 			);
 		} else {
-			if (attempts < MAX_ATTEMPTS) return await getHolychordsAudioFile(attempts + 1);
+			return await getHolychordsAudioFile(attempts + 1);
 		}
 	} catch (error) {
 		await handleAppErrorWithNoContext(error);
-		if (attempts < MAX_ATTEMPTS) return await getHolychordsAudioFile(attempts + 1);
+		return await getHolychordsAudioFile(attempts + 1);
 	}
 }
