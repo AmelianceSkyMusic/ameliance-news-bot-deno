@@ -83,7 +83,6 @@ export async function sendArticle(finalMessage?: string) {
 <b>image:</b> ${image}`,
 			{
 				parse_mode: 'HTML',
-				reply_markup: onMessagePostMenu,
 			},
 		);
 
