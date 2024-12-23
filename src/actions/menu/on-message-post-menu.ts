@@ -30,7 +30,7 @@ export function onMessagePostMenu() {
 			const textContent = getTextFromHTML(htmlData);
 			if (!textContent) return;
 
-			const postAsHTML = await generateBimbaPostAsHTML(ctx, {
+			const postAsHTML = await generateBimbaPostAsHTML({
 				title: postData.title,
 				text: textContent,
 			});
