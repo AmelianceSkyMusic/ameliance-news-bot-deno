@@ -57,8 +57,7 @@ async function prepareLink(url: string) {
 
 	return {
 		buffer: audioBuffer,
-		artist:
-			metadata.common?.artist ||
+		artist: metadata.common?.artist ||
 			(metadata.common?.artists ? metadata.common.artists.join(', ') : ''),
 		title: newTitle,
 		picture: metadata.common?.picture?.[0],
@@ -74,7 +73,6 @@ export async function getHolychordsAudioFile(attempts = 0) {
 		const randomSongId = getRandomNumber(1, 99_999);
 		const url = `${holychordsURL}/${randomSongId}`;
 		// const url = 'https://holychords.pro/63958'; //Штанішкі коротішкі
-		console.log('url: ', url);
 
 		const htmlData = await getHTMLData(url);
 		if (!htmlData) return await getHolychordsAudioFile(attempts + 1);
@@ -83,14 +81,20 @@ export async function getHolychordsAudioFile(attempts = 0) {
 		if (!matchMusicText) return await getHolychordsAudioFile(attempts + 1);
 		const musicText = matchMusicText[1].trim();
 		const musicTextLang = franc(musicText);
-		console.log('musicTextLang: ', musicTextLang);
 		if (musicTextLang !== 'eng' && musicTextLang !== 'ukr') {
 			return await getHolychordsAudioFile(attempts + 1);
 		}
 
 		const matchArtist = htmlData.match(REGEXP.holychordsSongArtist);
 		const matchTitle = htmlData.match(REGEXP.holychordsSongTitle);
-		const matchDownloadUrl = htmlData.match(REGEXP.holychordsDownloadLink);
+		const matchDownloadATag = [...htmlData.matchAll(REGEXP.holychordsDownloadLink)];
+		const downloadUrls = matchDownloadATag.map((match) => match.groups?.href);
+		const filteredDownloadUrls = downloadUrls.filter(
+			(link) => link !== '/uploads/music/20190502/2019050211472221.mp3',
+		);
+		const matchDownloadUrl = filteredDownloadUrls.length > 0
+			? filteredDownloadUrls[0]
+			: downloadUrls[0];
 
 		let artist = '';
 		if (matchArtist && matchArtist[1]) artist = matchArtist[1].trim() || '';
@@ -102,8 +106,8 @@ export async function getHolychordsAudioFile(attempts = 0) {
 		// const sendOptions = { caption: titleContent, parse_mode: 'HTML' };
 		const sendOptions: Record<string, unknown> = {};
 
-		if (matchDownloadUrl && matchDownloadUrl[1]) {
-			const downloadMp3Url = `${holychordsURL}${matchDownloadUrl[1]}`;
+		if (matchDownloadUrl) {
+			const downloadMp3Url = `${holychordsURL}${matchDownloadUrl}`;
 
 			const { buffer, artist, title, picture } = await prepareLink(downloadMp3Url);
 
