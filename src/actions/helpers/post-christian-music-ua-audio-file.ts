@@ -66,7 +66,7 @@ async function prepareLink(url: string) {
 
 const MAX_ATTEMPTS = 30;
 
-export async function getHolychordsAudioFile(attempts = 0) {
+export async function postChristianMusicUaAudioFile(attempts = 0) {
 	if (attempts > MAX_ATTEMPTS) return;
 
 	try {
@@ -75,14 +75,14 @@ export async function getHolychordsAudioFile(attempts = 0) {
 		// const url = 'https://holychords.pro/63958'; //Штанішкі коротішкі
 
 		const htmlData = await getHTMLData(url);
-		if (!htmlData) return await getHolychordsAudioFile(attempts + 1);
+		if (!htmlData) return await postChristianMusicUaAudioFile(attempts + 1);
 
 		const matchMusicText = htmlData.match(REGEXP.holychordsMusicText);
-		if (!matchMusicText) return await getHolychordsAudioFile(attempts + 1);
+		if (!matchMusicText) return await postChristianMusicUaAudioFile(attempts + 1);
 		const musicText = matchMusicText[1].trim();
 		const musicTextLang = franc(musicText);
-		if (musicTextLang !== 'eng' && musicTextLang !== 'ukr') {
-			return await getHolychordsAudioFile(attempts + 1);
+		if (musicTextLang !== 'ukr') {
+			return await postChristianMusicUaAudioFile(attempts + 1);
 		}
 
 		const matchArtist = htmlData.match(REGEXP.holychordsSongArtist);
@@ -102,39 +102,30 @@ export async function getHolychordsAudioFile(attempts = 0) {
 		let title = '';
 		if (matchTitle && matchTitle[1]) title = matchTitle[1].trim() || '';
 
-		// const titleContent = songTitle ? `<a href="${url}"><b>→</b></a>\n` : '';
-		// const sendOptions = { caption: titleContent, parse_mode: 'HTML' };
 		const sendOptions: Record<string, unknown> = {};
 
 		if (matchDownloadUrl) {
 			const downloadMp3Url = `${holychordsURL}${matchDownloadUrl}`;
 
-			const { buffer, artist, title, picture } = await prepareLink(downloadMp3Url);
+			const { buffer, artist, title } = await prepareLink(downloadMp3Url);
 
 			const fileSizeInMB = buffer.length / (1024 * 1024);
-			if (fileSizeInMB > 50) return await getHolychordsAudioFile(attempts + 1);
+			if (fileSizeInMB > 50) return await postChristianMusicUaAudioFile(attempts + 1);
 
 			const mp3FileTitle = `${[artist, title].join(' - ')}.mp3`;
-			if (picture?.data) {
-				const isValidImage = await isImageValid(picture?.data);
-				if (isValidImage) {
-					sendOptions.thumb = new InputFile(picture?.data);
-				} else {
-					console.log('Неправильний формат зображення або занадто великий розмір.');
-					return;
-				}
-			}
+
+			sendOptions.thumb = null;
 
 			await bot.api.sendAudio(
-				Number(ENV.HOLYCHORDS_PRO_ID),
+				Number(ENV.CHRISTIAN_MUSIC_UA_ID),
 				new InputFile(buffer, mp3FileTitle),
 				sendOptions,
 			);
 		} else {
-			return await getHolychordsAudioFile(attempts + 1);
+			return await postChristianMusicUaAudioFile(attempts + 1);
 		}
 	} catch (error) {
 		await handleAppErrorWithNoContext(error);
-		return await getHolychordsAudioFile(attempts + 1);
+		return await postChristianMusicUaAudioFile(attempts + 1);
 	}
 }

@@ -5,6 +5,7 @@ import { getHolychordsAudioFile } from './actions/helpers/get-holychords-audio-f
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
 import { sendArticle } from './actions/helpers/send-article.ts';
+import { postChristianMusicUaAudioFile } from './actions/helpers/post-christian-music-ua-audio-file';
 
 const WEBHOOK_ENDPOINT = Deno.env.get('WEBHOOK_ENDPOINT');
 
@@ -71,6 +72,7 @@ Deno.serve(async (req: Request) => {
 
 				setTimeout(async () => {
 					await getHolychordsAudioFile();
+					await postChristianMusicUaAudioFile();
 				}, randomDelay);
 
 				return new Response('Ok', { status: 200 });
