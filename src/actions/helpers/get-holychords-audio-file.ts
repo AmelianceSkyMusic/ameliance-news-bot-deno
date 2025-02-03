@@ -130,6 +130,14 @@ export async function getHolychordsAudioFile(attempts = 0) {
 				new InputFile(buffer, mp3FileTitle),
 				sendOptions,
 			);
+
+			if (musicTextLang === 'ukr') {
+				await bot.api.sendAudio(
+					Number(ENV.CHRISTIAN_MUSIC_UA_ID),
+					new InputFile(buffer, mp3FileTitle),
+					sendOptions,
+				);
+			}
 		} else {
 			return await getHolychordsAudioFile(attempts + 1);
 		}

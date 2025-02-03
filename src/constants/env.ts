@@ -18,6 +18,11 @@ export const ENV = {
 		(MODE === 'dev' ? Deno.env.get('DEV__HOLYCHORDS_PRO_ID') : Deno.env.get('HOLYCHORDS_PRO_ID')) ||
 		Deno.env.get('HOLYCHORDS_PRO_ID'),
 
+	CHRISTIAN_MUSIC_UA_ID:
+		(MODE === 'dev'
+			? Deno.env.get('DEV__CHRISTIAN_MUSIC_UA_ID')
+			: Deno.env.get('CHRISTIAN_MUSIC_UA_ID')) || Deno.env.get('CHRISTIAN_MUSIC_UA_ID'),
+
 	GOOGLE_DATA_TABLE_ID:
 		(MODE === 'dev'
 			? Deno.env.get('DEV__GOOGLE_DATA_TABLE_ID')
