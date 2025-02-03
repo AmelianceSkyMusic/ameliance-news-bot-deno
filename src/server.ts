@@ -5,7 +5,7 @@ import { getHolychordsAudioFile } from './actions/helpers/get-holychords-audio-f
 import { bot } from './bot.ts';
 import { connectToDatabase } from './libs/db/mongoose.ts';
 import { sendArticle } from './actions/helpers/send-article.ts';
-import { postChristianMusicUaAudioFile } from './actions/helpers/post-christian-music-ua-audio-file';
+import { postChristianMusicUaAudioFile } from './actions/helpers/post-christian-music-ua-audio-file.ts';
 
 const WEBHOOK_ENDPOINT = Deno.env.get('WEBHOOK_ENDPOINT');
 
