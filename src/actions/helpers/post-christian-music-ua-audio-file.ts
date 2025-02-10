@@ -87,14 +87,26 @@ export async function postChristianMusicUaAudioFile(attempts = 0) {
 
 		const matchArtist = htmlData.match(REGEXP.holychordsSongArtist);
 		const matchTitle = htmlData.match(REGEXP.holychordsSongTitle);
-		const matchDownloadATag = [...htmlData.matchAll(REGEXP.holychordsDownloadLink)];
-		const downloadUrls = matchDownloadATag.map((match) => match.groups?.href);
-		const filteredDownloadUrls = downloadUrls.filter(
-			(link) => link !== '/uploads/music/20190502/2019050211472221.mp3',
-		);
-		const matchDownloadUrl = filteredDownloadUrls.length > 0
-			? filteredDownloadUrls[0]
-			: downloadUrls[0];
+
+		const dataAudioId = url.split('/').at(-1) || '';
+
+		const matches = htmlData.matchAll(REGEXP.holychordsDownloadLink(dataAudioId));
+
+		let matchDownloadUrl: string | null = null;
+
+		for (const match of matches) {
+			const aTag = match[0];
+
+			//* Get data-audio-file
+			const audioFileRegex = /data-audio-file\s*=\s*["']([^"']+)["']/i;
+			const audioFileMatch = aTag.match(audioFileRegex);
+
+			if (audioFileMatch) {
+				matchDownloadUrl = audioFileMatch[1];
+			} else {
+				matchDownloadUrl = null;
+			}
+		}
 
 		let artist = '';
 		if (matchArtist && matchArtist[1]) artist = matchArtist[1].trim() || '';
