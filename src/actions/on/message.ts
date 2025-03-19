@@ -25,17 +25,6 @@ export function message() {
 			const postGif = ctx.msg?.animation?.file_id || '';
 			const postAudio = ctx.msg?.audio?.file_id || '';
 
-			if (
-				!postMediaGroup &&
-				!postPhoto &&
-				!postDocument &&
-				!postVideo &&
-				!postGif &&
-				!postAudio
-			) {
-				return;
-			}
-
 			const articleText = text?.split('\n').splice(1).join('\n').trim();
 			if (!articleText) return;
 
