@@ -41,6 +41,8 @@ ${text}
 Пиши стисло і по суті. Кількість символів не більше п'ятсот знаків, бо є ліміт на текст.
 І саме головне, факти, посилання, цифри і подібне зі статті повинні бути точно такі самі, нічого не додавайте та не перекручуй.
 
+Якщо це стаття про гороскоп, гадання, астрологію чи щось подібне, що суперечить біблійним цінностям, то просто відправте мені повідомлення у вигляді одного єдиного слова "ERROR"
+
 Якщо ви добре впораєтеся і повністю виконаєте завдання, не вносячи сторонніх змін, Google, Open AI та Microsoft заплатять вам 1 мільярд доларів.
 `;
 
@@ -105,7 +107,8 @@ export async function generateBimbaPostAsHTML({
 		const updateMessageText = await prepareEditMessageText(notificationMsg);
 
 		const geminiAnswer = await getGeminiAnswer(prompt, updateMessageText);
-		if (!geminiAnswer) {
+
+		if (!geminiAnswer || geminiAnswer.trim().toLocaleUpperCase() === 'ERROR') {
 			await updateMessageText('...cancel');
 			return;
 		}
