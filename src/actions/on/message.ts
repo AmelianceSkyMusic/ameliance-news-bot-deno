@@ -17,7 +17,7 @@ export function message() {
 			logUserInfo(ctx, { message: 'on message', accessMessage: hasAccessToRunCommand });
 			if (!hasAccessToRunCommand) return;
 
-			const text = ctx.msg?.caption;
+			const text = ctx.msg?.caption || ctx.msg?.text || '';
 			const postMediaGroup = ctx.msg?.media_group_id || '';
 			const postPhoto = ctx.msg?.photo?.at(-1)?.file_id || ''; //* Get last photo from photo array with different sizes
 			const postDocument = ctx.msg?.document?.file_id || '';
@@ -25,7 +25,11 @@ export function message() {
 			const postGif = ctx.msg?.animation?.file_id || '';
 			const postAudio = ctx.msg?.audio?.file_id || '';
 
-			const articleText = text?.split('\n').splice(1).join('\n').trim();
+			const articleText = text
+				?.split('\n')
+				.map((line) => line.trim())
+				.join('\n')
+				.trim();
 			if (!articleText) return;
 
 			const postAsHTML = await generateBimbaPostAsHTML({ text: articleText });
@@ -36,11 +40,11 @@ export function message() {
 					InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo
 				> = [];
 
-				if (ctx.msg?.media_group_id) {
+				if (postMediaGroup) {
 					const messages = await ctx.api.getUpdates();
 					let firstItemAdded = false;
 					for (const message of messages) {
-						if (message.message?.media_group_id === ctx.msg.media_group_id) {
+						if (message.message?.media_group_id === postMediaGroup) {
 							if (message.message.video) {
 								mediaGroup.push({
 									type: 'video',
@@ -109,6 +113,7 @@ export function message() {
 			} else {
 				await ctx.api.sendMessage(Number(ENV.BIMBA_NEWS_ID), postAsHTML, {
 					parse_mode: 'HTML',
+					link_preview_options: { is_disabled: true },
 				});
 			}
 		} catch (error) {
