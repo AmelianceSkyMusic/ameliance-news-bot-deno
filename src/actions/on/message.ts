@@ -18,7 +18,6 @@ export function message() {
 			if (!hasAccessToRunCommand) return;
 
 			const text = ctx.msg?.caption;
-
 			const postMediaGroup = ctx.msg?.media_group_id || '';
 			const postPhoto = ctx.msg?.photo?.at(-1)?.file_id || ''; //* Get last photo from photo array with different sizes
 			const postDocument = ctx.msg?.document?.file_id || '';
@@ -116,6 +115,10 @@ export function message() {
 			} else if (postAudio) {
 				await ctx.api.sendAudio(Number(ENV.BIMBA_NEWS_ID), postAudio, {
 					caption: postAsHTML,
+					parse_mode: 'HTML',
+				});
+			} else {
+				await ctx.api.sendMessage(Number(ENV.BIMBA_NEWS_ID), postAsHTML, {
 					parse_mode: 'HTML',
 				});
 			}
