@@ -2,8 +2,10 @@
   "version": "4",
   "specifiers": {
     "npm:@google/generative-ai@*": "0.21.0",
+    "npm:ameliance-fetch@*": "0.0.3",
     "npm:ameliance-scripts@*": "0.4.106",
     "npm:franc@*": "6.2.0",
+    "npm:mongoose@8.12.1": "8.12.1",
     "npm:mongoose@^8.8.3": "8.9.2",
     "npm:music-metadata@*": "10.6.4",
     "npm:node-id3@*": "0.2.6"
@@ -33,11 +35,17 @@
         "@types/webidl-conversions"
       ]
     },
+    "ameliance-fetch@0.0.3": {
+      "integrity": "sha512-WWhzAbf2tFulrfof7SIzItifE4mjjE7Quun5uUd7OxFazyPDyApBUlckhpsNsezW+AaUG54BaKqSnNnD1KUwVw=="
+    },
     "ameliance-scripts@0.4.106": {
       "integrity": "sha512-rm6ph/NsZxgE12b2UIqiAlOUWUzXMJK9np6M0MTJFig7qSWuqiyEmBX7mKFxS0PJTA91xXSq1M90rrQNJ3p0Nw=="
     },
     "bson@6.10.1": {
       "integrity": "sha512-P92xmHDQjSKPLHqFxefqMxASNq/aWJMEZugpCjf+AF/pgcUpMMQCg7t7+ewko0/u8AapvF3luf/FoehddEK+sA=="
+    },
+    "bson@6.10.3": {
+      "integrity": "sha512-MTxGsqgYTwfshYWTRdmZRC+M7FnG1b4y7RO7p2k3X24Wq0yv1m77Wsj0BzlPzd/IowgESfsruQCUToa7vbOpPQ=="
     },
     "collapse-white-space@2.1.0": {
       "integrity": "sha512-loKTxY1zCOuG4j9f6EPnuyyYkf58RnhhWTvRoZEokgB+WbdXehfjFviyOVYkqzEWz1Q5kRiZdBYS5SwxbQYwzw=="
@@ -108,16 +116,36 @@
       "integrity": "sha512-RM7AHlvYfS7jv7+BXund/kR64DryVI+cHbVAy9P61fnb1RcWZqOW1/Wj2YhqMCx+MuYhqTRGv7AwHBzmsCKBfA==",
       "dependencies": [
         "@mongodb-js/saslprep",
-        "bson",
+        "bson@6.10.1",
         "mongodb-connection-string-url"
+      ]
+    },
+    "mongodb@6.14.2": {
+      "integrity": "sha512-kMEHNo0F3P6QKDq17zcDuPeaywK/YaJVCEQRzPF3TOM/Bl9MFg64YE5Tu7ifj37qZJMhwU1tl2Ioivws5gRG5Q==",
+      "dependencies": [
+        "@mongodb-js/saslprep",
+        "bson@6.10.3",
+        "mongodb-connection-string-url"
+      ]
+    },
+    "mongoose@8.12.1": {
+      "integrity": "sha512-UW22y8QFVYmrb36hm8cGncfn4ARc/XsYWQwRTaj0gxtQk1rDuhzDO1eBantS+hTTatfAIS96LlRCJrcNHvW5+Q==",
+      "dependencies": [
+        "bson@6.10.3",
+        "kareem",
+        "mongodb@6.14.2",
+        "mpath",
+        "mquery",
+        "ms",
+        "sift"
       ]
     },
     "mongoose@8.9.2": {
       "integrity": "sha512-mLWynmZS1v8HTeMxyLhskQncS1SkrjW1eLNuFDYGQMQ/5QrFrxTLNwWXeCRZeKT2lXyaxW8bnJC9AKPT9jYMkw==",
       "dependencies": [
-        "bson",
+        "bson@6.10.1",
         "kareem",
-        "mongodb",
+        "mongodb@6.12.0",
         "mpath",
         "mquery",
         "ms",
