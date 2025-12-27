@@ -98,8 +98,7 @@ export async function postChristianMusicUaAudioFile(attempts = 0) {
 			const aTag = match[0];
 
 			//* Get data-audio-file
-			const audioFileRegex = /data-audio-file\s*=\s*["']([^"']+)["']/i;
-			const audioFileMatch = aTag.match(audioFileRegex);
+			const audioFileMatch = aTag.match(REGEXP.holychordsAudioFile);
 
 			if (audioFileMatch) {
 				matchDownloadUrl = audioFileMatch[1];

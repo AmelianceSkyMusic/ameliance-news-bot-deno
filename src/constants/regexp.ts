@@ -5,4 +5,5 @@ export const REGEXP = {
 	holychordsMusicText: /<pre[^>]*id="music_text"[^>]*>(.*?)<\/pre>/s,
 	holychordsSongArtist: /<h5[^>]*>(.*?)<\/h5>/s,
 	holychordsSongTitle: /<h2[^>]*>(.*?)<\/h2>/,
+	holychordsAudioFile: /data-audio-file\s*=\s*["']([^"']+)["']/i,
 };
