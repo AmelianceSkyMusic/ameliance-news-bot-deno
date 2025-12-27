@@ -2,7 +2,13 @@ import { handleAppErrorWithNoContext } from './no-context/handle-app-error-with-
 
 export async function getHTMLData(url: string) {
 	try {
-		const data = await fetch(url);
+		const data = await fetch(url, {
+			headers: {
+				'User-Agent':
+					'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+			},
+		});
+
 		if (!data.ok) {
 			if (data.status === 404) {
 				console.log('404: ', 404);
