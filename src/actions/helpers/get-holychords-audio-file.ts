@@ -112,14 +112,6 @@ export async function getHolychordsAudioFile(attempts = 0) {
 			}
 		}
 
-		let artist = '';
-		if (matchArtist && matchArtist[1]) artist = matchArtist[1].trim() || '';
-
-		let title = '';
-		if (matchTitle && matchTitle[1]) title = matchTitle[1].trim() || '';
-
-		// const titleContent = songTitle ? `<a href="${url}"><b>→</b></a>\n` : '';
-		// const sendOptions = { caption: titleContent, parse_mode: 'HTML' };
 		const sendOptions: Record<string, unknown> = {};
 
 		if (matchDownloadUrl) {
