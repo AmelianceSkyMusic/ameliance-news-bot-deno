@@ -8,6 +8,6 @@
 	},
 	"nodeModulesDir": "auto",
 	"imports": {
-		"~ameliance-telegram-scripts-deno/": "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/main/59f5dd664294804035ae027571e58120c9d2f256"
+		"~ameliance-telegram-scripts-deno/": "https://raw.githubusercontent.com/AmelianceSkyMusic/ameliance-telegram-scripts-deno/59f5dd664294804035ae027571e58120c9d2f256/"
 	}
 }
