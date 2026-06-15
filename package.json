@@ -7,7 +7,8 @@
 		"dev": "deno fmt && deno run --allow-net --allow-import --allow-read --allow-write --allow-env --env-file --allow-sys --watch src/poll.ts",
 		"dev-unsafe": "deno fmt && deno run --unsafely-ignore-certificate-errors --allow-net --allow-import --allow-read --allow-env --env-file --allow-sys --watch src/poll.ts",
 		"dev-reload": "deno fmt && deno run --allow-net --allow-import --allow-read --allow-env --env-file --allow-sys --reload src/poll.ts",
-		"reload-cash": "rm -rf deno.lock node_modules/ && deno cache --allow-import --reload ./src/**/*.ts"
+		"reload-cash": "node -e \"const fs = require('fs'); fs.rmSync('deno.lock', {force:true}); fs.rmSync('node_modules', {recursive:true, force:true})\" && deno cache --allow-import --reload ./src/**/*.ts",
+		"update-deps": "deno run --allow-run=git --allow-read=./deno.json --allow-write=./deno.json scripts/update-deps.ts && npm run reload-cash"
 	},
 	"repository": {
 		"type": "git",

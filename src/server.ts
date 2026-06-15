@@ -1,5 +1,5 @@
 import { getRandomNumber } from 'npm:ameliance-scripts';
-import { webhookCallback } from './deps.deno.ts';
+import { webhookCallback, GrammyError } from './deps.deno.ts';
 
 import { getHolychordsAudioFile } from './actions/helpers/get-holychords-audio-file.ts';
 import { bot } from './bot.ts';
@@ -9,13 +9,14 @@ import { postChristianMusicUaAudioFile } from './actions/helpers/post-christian-
 
 const WEBHOOK_ENDPOINT = Deno.env.get('WEBHOOK_ENDPOINT');
 
-if (!WEBHOOK_ENDPOINT) {
-	console.error('WEBHOOK_ENDPOINT is not set. Please check your environment configuration');
-}
-
 async function ensureWebhook() {
-	await bot.api.setWebhook(WEBHOOK_ENDPOINT);
+	if (!WEBHOOK_ENDPOINT) {
+		throw new Error('WEBHOOK_ENDPOINT is not set! Please check your environment configuration!');
+	}
+
 	try {
+		await bot.api.setWebhook(WEBHOOK_ENDPOINT);
+
 		const webhookInfo = await bot.api.getWebhookInfo();
 
 		if (!webhookInfo.url || webhookInfo.url !== WEBHOOK_ENDPOINT) {
@@ -24,16 +25,21 @@ async function ensureWebhook() {
 			console.log('Webhook already set correctly!');
 		}
 	} catch (error) {
-		console.error('Webhook setup error:', error);
+		if (error instanceof GrammyError && error.error_code === 429) {
+			console.log('⏳ Skipping webhook due to Telegram limits (429)');
+		} else {
+			console.error('❌ Webhook error:', error);
+		}
 	}
 }
 
 await ensureWebhook();
 
+await connectToDatabase();
+
 const handleUpdate = webhookCallback(bot, 'std/http');
 
 Deno.serve(async (req: Request) => {
-	await connectToDatabase();
 	const url = new URL(req.url);
 
 	if (req.method === 'POST') {
